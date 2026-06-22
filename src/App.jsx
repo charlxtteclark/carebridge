@@ -1,7 +1,7 @@
-import CareTimeline from './components/CareTimeline'
+import BurnoutDashboard from './components/BurnoutDashboard'
 
 function App() {
-  return <CareTimeline />
+  return <BurnoutDashboard />
 }
 
 export default App
