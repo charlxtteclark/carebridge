@@ -26,7 +26,6 @@ function App() {
   }, [])
 
   async function checkOnboarding(userId) {
-    // Check if user has a patient with a real name (not 'New Patient')
     const { data: member } = await supabase
       .from('family_members')
       .select('patient_id')
@@ -50,33 +49,48 @@ function App() {
     setLoading(false)
   }
 
-  if (loading) return <p>Loading...</p>
+  if (loading) return (
+    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+      <p style={{ color: '#7A7A72', fontSize: 14 }}>Loading...</p>
+    </div>
+  )
+
   if (!session) return <Login />
   if (needsOnboarding) return <Onboarding onComplete={() => setNeedsOnboarding(false)} />
 
   return (
-    <div>
-      <div style={{ display: 'flex', justifyContent: 'center', gap: 8, padding: '1.5rem 0 0' }}>
-        <button
-          onClick={() => setActiveTab('timeline')}
-          style={{ fontSize: 14, fontWeight: 500, padding: '8px 16px', borderRadius: 8, border: '1px solid #e5e5e5', background: activeTab === 'timeline' ? '#1a1a1a' : '#fff', color: activeTab === 'timeline' ? '#fff' : '#1a1a1a', cursor: 'pointer' }}
-        >
-          Care timeline
-        </button>
-        <button
-          onClick={() => setActiveTab('dashboard')}
-          style={{ fontSize: 14, fontWeight: 500, padding: '8px 16px', borderRadius: 8, border: '1px solid #e5e5e5', background: activeTab === 'dashboard' ? '#1a1a1a' : '#fff', color: activeTab === 'dashboard' ? '#fff' : '#1a1a1a', cursor: 'pointer' }}
-        >
-          Wellbeing
-        </button>
-        <button
-          onClick={() => supabase.auth.signOut()}
-          style={{ fontSize: 14, padding: '8px 16px', borderRadius: 8, border: '1px solid #e5e5e5', background: '#fff', color: '#666', cursor: 'pointer' }}
-        >
-          Sign out
-        </button>
+    <div style={{ minHeight: '100vh', background: '#F7F4F0' }}>
+      {/* Header */}
+      <div style={{ background: '#fff', borderBottom: '1px solid #E2DDD8', padding: '0 1.5rem' }}>
+        <div style={{ maxWidth: 700, margin: '0 auto', display: 'flex', justifyContent: 'space-between', alignItems: 'center', height: 56 }}>
+          <span style={{ fontSize: 16, fontWeight: 600, color: '#4A7C8E', letterSpacing: '-0.3px' }}>CareBridge</span>
+          <div style={{ display: 'flex', gap: 4 }}>
+            <button
+              onClick={() => setActiveTab('timeline')}
+              style={{ fontSize: 13, fontWeight: 500, padding: '6px 14px', borderRadius: 8, border: 'none', background: activeTab === 'timeline' ? '#E8F0F3' : 'transparent', color: activeTab === 'timeline' ? '#4A7C8E' : '#7A7A72', cursor: 'pointer' }}
+            >
+              Care timeline
+            </button>
+            <button
+              onClick={() => setActiveTab('dashboard')}
+              style={{ fontSize: 13, fontWeight: 500, padding: '6px 14px', borderRadius: 8, border: 'none', background: activeTab === 'dashboard' ? '#E8F0F3' : 'transparent', color: activeTab === 'dashboard' ? '#4A7C8E' : '#7A7A72', cursor: 'pointer' }}
+            >
+              Wellbeing
+            </button>
+          </div>
+          <button
+            onClick={() => supabase.auth.signOut()}
+            style={{ fontSize: 13, padding: '6px 12px', borderRadius: 8, border: '1px solid #E2DDD8', background: 'transparent', color: '#7A7A72', cursor: 'pointer' }}
+          >
+            Sign out
+          </button>
+        </div>
       </div>
-      {activeTab === 'timeline' ? <CareTimeline /> : <BurnoutDashboard />}
+
+      {/* Content */}
+      <div style={{ padding: '2rem 1rem' }}>
+        {activeTab === 'timeline' ? <CareTimeline /> : <BurnoutDashboard />}
+      </div>
     </div>
   )
 }

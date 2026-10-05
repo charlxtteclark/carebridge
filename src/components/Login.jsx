@@ -22,40 +22,51 @@ export default function Login() {
     else setError('Check your email to confirm your account, then sign in.')
   }
 
+  const inputStyle = {
+    width: '100%',
+    padding: '10px 12px',
+    borderRadius: 8,
+    border: '1px solid #E2DDD8',
+    background: '#fff',
+    color: '#2C2C2C',
+    fontSize: 14,
+    boxSizing: 'border-box',
+    outline: 'none',
+  }
+
   return (
-    <div style={{ maxWidth: 320, margin: '4rem auto', padding: '0 1rem' }}>
-      <h1 style={{ fontSize: 20, fontWeight: 500, marginBottom: 16, color: '#1a1a1a' }}>
-        {isSignUp ? 'Create an account' : 'Sign in to CareBridge'}
-      </h1>
-      <form onSubmit={isSignUp ? handleSignUp : handleLogin} style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-        <input
-          type="email"
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-          style={{ padding: '8px 10px', borderRadius: 6, border: '1px solid #ddd', background: '#fff', color: '#1a1a1a', boxSizing: 'border-box' }}
-        />
-        <input
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-          style={{ padding: '8px 10px', borderRadius: 6, border: '1px solid #ddd', background: '#fff', color: '#1a1a1a', boxSizing: 'border-box' }}
-        />
-        {error && <p style={{ color: '#b3261e', fontSize: 13, margin: 0 }}>{error}</p>}
-        <button
+    <div style={{ minHeight: '100vh', background: '#F7F4F0', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '1rem' }}>
+      <div style={{ background: '#fff', borderRadius: 16, border: '1px solid #E2DDD8', padding: '2rem', width: '100%', maxWidth: 360 }}>
+        <p style={{ fontSize: 13, color: '#4A7C8E', fontWeight: 500, marginBottom: 6 }}>CareBridge</p>
+        <h1 style={{ fontSize: 20, fontWeight: 600, color: '#2C2C2C', marginBottom: 4 }}>
+          {isSignUp ? 'Create an account' : 'Welcome back'}
+        </h1>
+        <p style={{ fontSize: 14, color: '#7A7A72', marginBottom: 24 }}>
+          {isSignUp ? 'Start coordinating care for your loved one.' : 'Sign in to your care dashboard.'}
+        </p>
+
+        <form onSubmit={isSignUp ? handleSignUp : handleLogin} style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+          <input type="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} required style={inputStyle} />
+          <input type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} required style={inputStyle} />
+          {error && <p style={{ color: error.includes('confirm') ? '#4A7C8E' : '#b3261e', fontSize: 13, margin: 0 }}>{error}</p>}
+          <button
             type="submit"
-            style={{ padding: '8px 16px', borderRadius: 6, border: 'none', background: '#1a1a1a', color: '#fff', fontWeight: 500, cursor: 'pointer' }}>
+            style={{ padding: '10px 16px', borderRadius: 8, border: 'none', background: '#4A7C8E', color: '#fff', fontWeight: 500, cursor: 'pointer', fontSize: 14, marginTop: 4 }}
+          >
             {isSignUp ? 'Sign up' : 'Sign in'}
-        </button>
-      </form>
-      <p style={{ fontSize: 13, textAlign: 'center', marginTop: 8 }}>
-        <button type="button" onClick={() => setIsSignUp(!isSignUp)} style={{ background: 'none', border: 'none', color: '#1a1a1a', textDecoration: 'underline', cursor: 'pointer', fontSize: 13 }}>
-          {isSignUp ? 'Already have an account? Sign in' : "Don't have an account? Sign up"}
-        </button>
-      </p>
+          </button>
+        </form>
+
+        <p style={{ fontSize: 13, textAlign: 'center', marginTop: 16 }}>
+          <button
+            type="button"
+            onClick={() => { setIsSignUp(!isSignUp); setError('') }}
+            style={{ background: 'none', border: 'none', color: '#4A7C8E', textDecoration: 'underline', cursor: 'pointer', fontSize: 13 }}
+          >
+            {isSignUp ? 'Already have an account? Sign in' : "Don't have an account? Sign up"}
+          </button>
+        </p>
+      </div>
     </div>
   )
 }
